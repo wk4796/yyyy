@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>个人生活记录</title>
-    <!-- 引入 Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 引入 Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
@@ -78,49 +76,33 @@
             color: white;
             font-weight: 700;
         }
-        /* 画廊图片悬停效果 */
-        .gallery-img-container {
-            overflow: hidden;
-            border-radius: 0.75rem; /* 12px */
-        }
-        .gallery-img {
-            transition: transform 0.5s ease;
-        }
-        .gallery-img-container:hover .gallery-img {
-            transform: scale(1.05);
-        }
     </style>
 </head>
 <body class="text-gray-300">
 
-    <!-- 网站头部 -->
     <header class="bg-black/30 backdrop-blur-md fixed top-0 left-0 right-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#home" class="text-2xl font-bold text-white">记录</a>
             <nav class="hidden md:flex items-center space-x-8">
                 <a href="#home" class="nav-link text-gray-300 hover:text-white transition-colors duration-300 active" data-target="home">首页</a>
                 <a href="#about" class="nav-link text-gray-300 hover:text-white transition-colors duration-300" data-target="about">关于我</a>
-                <a href="#gallery" class="nav-link text-gray-300 hover:text-white transition-colors duration-300" data-target="gallery">图片集</a>
+                <a href="#timeline" class="nav-link text-gray-300 hover:text-white transition-colors duration-300" data-target="timeline">我的足迹</a>
             </nav>
-            <!-- 移动端菜单按钮 -->
             <button id="mobile-menu-button" class="md:hidden text-gray-300 hover:text-white focus:outline-none z-50">
                 <svg id="menu-open-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" /></svg>
                 <svg id="menu-close-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
         </div>
-        <!-- 移动端导航菜单 -->
         <nav id="mobile-nav" class="hidden md:hidden bg-black/50 backdrop-blur-md">
             <div class="px-6 pb-4 pt-2 space-y-2">
                 <a href="#home" class="mobile-nav-link block text-center py-2 rounded-md text-gray-300 hover:bg-gray-800 hover:text-white" data-target="home">首页</a>
                 <a href="#about" class="mobile-nav-link block text-center py-2 rounded-md text-gray-300 hover:bg-gray-800 hover:text-white" data-target="about">关于我</a>
-                <a href="#gallery" class="mobile-nav-link block text-center py-2 rounded-md text-gray-300 hover:bg-gray-800 hover:text-white" data-target="gallery">图片集</a>
+                <a href="#timeline" class="mobile-nav-link block text-center py-2 rounded-md text-gray-300 hover:bg-gray-800 hover:text-white" data-target="timeline">我的足迹</a>
             </div>
         </nav>
     </header>
 
-    <!-- 主体内容区域 -->
     <main>
-        <!-- 首页内容 - 全屏视频 -->
         <section id="home">
             <video autoplay muted loop id="bg-video">
                 <source src="https://placehold.co/assets/videos/time-lapse-video-of-night-sky-857251.mp4" type="video/mp4">
@@ -131,7 +113,6 @@
             </div>
         </section>
 
-        <!-- 关于我内容 -->
         <section id="about" class="py-20 md:py-32 fade-in-section">
             <div class="container mx-auto px-6">
                 <div class="max-w-4xl mx-auto relative">
@@ -149,23 +130,52 @@
             </div>
         </section>
         
-        <!-- 图片集内容 -->
-        <section id="gallery" class="py-20 md:py-32 fade-in-section">
+        <section id="timeline" class="py-20 md:py-32 fade-in-section">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
-                    <h1 class="text-4xl font-bold text-white">图片集</h1>
-                    <p class="text-lg text-gray-400 mt-2">生活的片段，光影的诗篇</p>
+                    <h1 class="text-4xl font-bold text-white">我的足迹</h1>
+                    <p class="text-lg text-gray-400 mt-2">时间为轴，镌刻生命中的点滴</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <a href="#" class="gallery-img-container block shadow-2xl"><img class="gallery-img w-full h-full object-cover" src="https://images.unsplash.com/photo-1519677100203-a0e668c97489?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="[夜晚街角的照片]"></a>
-                    <a href="#" class="gallery-img-container block shadow-2xl md:translate-y-10"><img class="gallery-img w-full h-full object-cover" src="https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="[阳光穿透森林的照片]"></a>
-                    <a href="#" class="gallery-img-container block shadow-2xl"><img class="gallery-img w-full h-full object-cover" src="https://images.unsplash.com/photo-1502920514358-90b23d79b98d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="[海边日落的照片]"></a>
+                <div class="relative max-w-2xl mx-auto">
+                    <div class="absolute left-1/2 top-0 h-full w-0.5 bg-gray-700"></div>
+                    <div class="mb-8 flex justify-between items-center w-full right-timeline">
+                        <div class="order-1 w-5/12"></div>
+                        <div class="z-20 flex items-center order-1 bg-gray-800 shadow-xl w-8 h-8 rounded-full">
+                            <h1 class="mx-auto font-semibold text-sm text-white">1</h1>
+                        </div>
+                        <div class="order-1 bg-gray-900/50 backdrop-blur-md rounded-lg shadow-xl w-5/12 px-6 py-4">
+                            <h3 class="font-bold text-white text-xl">开启探索之旅</h3>
+                            <p class="text-sm font-medium leading-snug tracking-wide text-gray-400 text-opacity-100">2020年</p>
+                            <p class="text-sm leading-tight text-gray-500 mt-2">在这里写下那一年发生的重要事件或心路历程的简短描述。</p>
+                        </div>
+                    </div>
+                    <div class="mb-8 flex justify-between flex-row-reverse items-center w-full left-timeline">
+                        <div class="order-1 w-5/12"></div>
+                        <div class="z-20 flex items-center order-1 bg-gray-800 shadow-xl w-8 h-8 rounded-full">
+                            <h1 class="mx-auto text-white font-semibold text-sm">2</h1>
+                        </div>
+                        <div class="order-1 bg-gray-900/50 backdrop-blur-md rounded-lg shadow-xl w-5/12 px-6 py-4">
+                            <h3 class="font-bold text-white text-xl">新的里程碑</h3>
+                            <p class="text-sm font-medium leading-snug tracking-wide text-gray-400 text-opacity-100">2022年</p>
+                            <p class="text-sm leading-tight text-gray-500 mt-2">记录下另一个值得纪念的瞬间，可以是一次旅行、一个项目或是一个感悟。</p>
+                        </div>
+                    </div>
+                    <div class="mb-8 flex justify-between items-center w-full right-timeline">
+                        <div class="order-1 w-5/12"></div>
+                        <div class="z-20 flex items-center order-1 bg-gray-800 shadow-xl w-8 h-8 rounded-full">
+                            <h1 class="mx-auto font-semibold text-sm text-white">3</h1>
+                        </div>
+                        <div class="order-1 bg-gray-900/50 backdrop-blur-md rounded-lg shadow-xl w-5/12 px-6 py-4">
+                            <h3 class="font-bold text-white text-xl">持续前行</h3>
+                            <p class="text-sm font-medium leading-snug tracking-wide text-gray-400 text-opacity-100">2024年</p>
+                            <p class="text-sm leading-tight text-gray-500 mt-2">描述当下的状态或近期的成长与变化，展望未来的方向。</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- 网站页脚 -->
     <footer class="bg-black/50 border-t border-gray-800">
         <div class="container mx-auto px-6 py-6 text-center text-gray-500 text-xs">
             <p class="mb-2">&copy; 2025 个人生活记录. 保留所有权利.</p>
@@ -179,7 +189,6 @@
         </div>
     </footer>
 
-    <!-- JavaScript 代码 -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // 打字效果
