@@ -10,13 +10,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* --- Base and Font Styles --- */
+        html, body {
+            height: 100%;
+        }
         body {
             font-family: 'Noto Serif SC', serif;
             background-color: #121212;
             color: #e0e0e0;
+            /* --- Sticky Footer Style --- */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         /* --- Layout --- */
+        main {
+            /* --- Sticky Footer Style --- */
+            flex-grow: 1;
+        }
         .content-section:not(#home) {
             padding-top: 120px;
             padding-bottom: 120px;
