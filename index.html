@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* --- Base and Font Styles --- */
+        /* --- 基础与字体 --- */
         html {
             height: 100%;
         }
@@ -17,62 +17,77 @@
             font-family: 'Noto Serif SC', serif;
             background-color: #121212;
             color: #e0e0e0;
-            min-height: 100%;
-            /* Add padding to body to account for fixed header height */
-            /* 68px is a typical height for this header, adjust if needed */
-            padding-top: 68px; 
+            height: 100%;
+            margin: 0;
         }
 
-        /* --- Sticky Footer Wrapper --- */
-        .site-wrapper {
+        /* --- 网站主容器 (实现粘性页脚的关键) --- */
+        .site-container {
             display: flex;
             flex-direction: column;
-            flex-grow: 1;
+            min-height: 100vh;
         }
         main {
             flex-grow: 1;
         }
 
-        /* --- Layout --- */
-        .content-section:not(#home) {
-            padding-top: 60px; /* Reduced padding since body has padding now */
-            padding-bottom: 120px;
+        /* --- 全局视频背景 --- */
+        #page-bg-video {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -2; /* 放在最底层 */
+            transform: translateX(-50%) translateY(-50%);
+            object-fit: cover; /* 保证视频填满屏幕 */
+        }
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* 黑色遮罩，控制亮度 */
+            z-index: -1;
         }
 
-        /* --- Navigation --- */
+        /* --- 导航 --- */
         .nav-link.active {
             color: white;
             font-weight: 700;
         }
 
-        /* --- Home Section & Video Background --- */
-        #home {
-            /* Position relative to body, not the wrapper */
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: -1; /* Place it behind all other content */
+        /* --- 内容区块 --- */
+        .content-section {
+            display: none; /* 默认所有区块都隐藏 */
         }
-        #bg-video {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            z-index: -1;
-            transform: translateX(-50%) translateY(-50%);
-            filter: brightness(0.4);
+        .content-section.active {
+            display: block; /* 只显示激活的区块 */
+            animation: fadeIn 0.6s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- Typing Animation --- */
-        .typing-container {
-            /* This container needs to be visible when the home section is active */
-            height: 100vh;
-            display: flex;
+        /* 首页独有样式 */
+        #home {
+            display: flex; /* 覆盖 .content-section 的 display:none */
             align-items: center;
             justify-content: center;
+            min-height: calc(100vh - 68px); /* 占据视口高度减去头部高度 */
+        }
+        
+        /* 其他页面通用内边距 */
+        #about, #timeline {
+             padding: 6rem 1.5rem;
+        }
+
+        /* --- 打字动画 --- */
+        .typing-container {
             font-size: 3.5rem;
             font-weight: 700;
             color: white;
@@ -90,72 +105,62 @@
         @keyframes blink {
             50% { opacity: 0; }
         }
-
-        /* --- Content Visibility Animation --- */
-        .content-section:not(.hidden) {
-            animation: fadeIn 0.6s ease-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
     </style>
 </head>
-<body class="text-gray-300">
+<body>
 
-    <header class="bg-black/30 backdrop-blur-md fixed top-0 left-0 right-0 z-50">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#home" class="nav-link text-2xl font-bold text-white" data-target="home">记录</a>
-            <nav class="hidden md:flex items-center space-x-8">
-                <a href="#home" class="nav-link text-gray-300 hover:text-white transition-colors" data-target="home">首页</a>
-                <a href="#about" class="nav-link text-gray-300 hover:text-white transition-colors" data-target="about">关于我</a>
-                <a href="#timeline" class="nav-link text-gray-300 hover:text-white transition-colors" data-target="timeline">我的足迹</a>
-            </nav>
-            <button id="mobile-menu-button" class="md:hidden text-gray-300 hover:text-white">
-                <svg id="menu-open-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
-                <svg id="menu-close-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-            </button>
-        </div>
-        <nav id="mobile-nav" class="hidden md:hidden bg-black/50 backdrop-blur-md">
-            <div class="px-6 pb-4 pt-2 space-y-2">
-                <a href="#home" class="mobile-nav-link block text-center py-2 rounded-md" data-target="home">首页</a>
-                <a href="#about" class="mobile-nav-link block text-center py-2 rounded-md" data-target="about">关于我</a>
-                <a href="#timeline" class="mobile-nav-link block text-center py-2 rounded-md" data-target="timeline">我的足迹</a>
+    <div class="video-overlay"></div>
+    <video autoplay muted loop id="page-bg-video">
+        <source src="https://placehold.co/assets/videos/time-lapse-video-of-night-sky-857251.mp4" type="video/mp4">
+    </video>
+
+    <div class="site-container">
+        <header class="bg-black/30 backdrop-blur-md sticky top-0 left-0 right-0 z-50">
+            <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+                <a href="#home" class="nav-link text-2xl font-bold text-white" data-target="home">记录</a>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link text-gray-300 hover:text-white transition-colors" data-target="home">首页</a>
+                    <a href="#about" class="nav-link text-gray-300 hover:text-white transition-colors" data-target="about">关于我</a>
+                    <a href="#timeline" class="nav-link text-gray-300 hover:text-white transition-colors" data-target="timeline">我的足迹</a>
+                </nav>
+                <button id="mobile-menu-button" class="md:hidden text-gray-300 hover:text-white">
+                    <svg id="menu-open-icon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                    <svg id="menu-close-icon" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
             </div>
-        </nav>
-    </header>
+            <nav id="mobile-nav" class="hidden md:hidden bg-black/50 backdrop-blur-md">
+                <div class="px-6 pb-4 pt-2 space-y-2">
+                    <a href="#home" class="mobile-nav-link block text-center py-2 rounded-md" data-target="home">首页</a>
+                    <a href="#about" class="mobile-nav-link block text-center py-2 rounded-md" data-target="about">关于我</a>
+                    <a href="#timeline" class="mobile-nav-link block text-center py-2 rounded-md" data-target="timeline">我的足迹</a>
+                </div>
+            </nav>
+        </header>
 
-    <div class="site-wrapper">
         <main>
             <section id="home" class="content-section">
-                <video autoplay muted loop id="bg-video">
-                    <source src="https://placehold.co/assets/videos/time-lapse-video-of-night-sky-857251.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
                 <div class="typing-container">
                     <span id="typed-text"></span><span class="cursor"></span>
                 </div>
             </section>
 
-            <section id="about" class="content-section hidden">
-                <div class="container mx-auto px-6">
+            <section id="about" class="content-section">
+                <div class="container mx-auto">
                     <div class="max-w-4xl mx-auto relative">
                         <div class="md:absolute md:inset-0 bg-gray-800/20 rounded-2xl md:-rotate-3"></div>
                         <div class="relative bg-gray-900/50 backdrop-blur-lg rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-12">
-                            <img src="https://placehold.co/300x300/e0e0e0/333333?text=头像" alt="A personal avatar" class="w-48 h-48 md:w-60 md:h-60 rounded-full object-cover shadow-2xl shrink-0 border-4 border-gray-700">
+                            <img src="https://placehold.co/300x300/e0e0e0/333333?text=头像" alt="个人头像" class="w-48 h-48 md:w-60 md:h-60 rounded-full object-cover shadow-2xl shrink-0 border-4 border-gray-700">
                             <div class="text-center md:text-left">
                                 <h1 class="text-4xl font-bold text-white mb-4">你好，我是[你的名字]</h1>
-                                <p class="text-lg leading-relaxed text-gray-400">
-                                    一个热爱生活、喜欢用镜头和文字捕捉瞬间的行者。我相信，每一个平凡的日子里，都藏着不平凡的诗意。这个小站，是我收藏光影与思绪的地方。
-                                </p>
+                                <p class="text-lg leading-relaxed text-gray-400">一个热爱生活、喜欢用镜头和文字捕捉瞬间的行者。我相信，每一个平凡的日子里，都藏着不平凡的诗意。这个小站，是我收藏光影与思绪的地方。</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
             
-            <section id="timeline" class="content-section hidden">
-                <div class="container mx-auto px-6">
+            <section id="timeline" class="content-section">
+                <div class="container mx-auto">
                     <div class="text-center mb-16">
                         <h1 class="text-4xl font-bold text-white">我的足迹</h1>
                         <p class="text-lg text-gray-400 mt-2">时间为轴，镌刻生命中的点滴</p>
@@ -164,9 +169,7 @@
                         <div class="absolute left-1/2 top-0 h-full w-0.5 bg-gray-700"></div>
                         <div class="mb-8 flex justify-between items-center w-full">
                             <div class="order-1 w-5/12"></div>
-                            <div class="z-10 flex items-center order-1 bg-gray-800 shadow-xl w-8 h-8 rounded-full">
-                                <span class="mx-auto font-semibold text-sm text-white">1</span>
-                            </div>
+                            <div class="z-10 flex items-center order-1 bg-gray-800 shadow-xl w-8 h-8 rounded-full"><span class="mx-auto font-semibold text-sm text-white">1</span></div>
                             <div class="order-1 bg-gray-900/50 backdrop-blur-md rounded-lg shadow-xl w-5/12 px-6 py-4">
                                 <h3 class="font-bold text-white text-xl">开启探索之旅</h3>
                                 <p class="text-sm font-medium text-gray-400">2020年</p>
@@ -175,20 +178,16 @@
                         </div>
                         <div class="mb-8 flex justify-between flex-row-reverse items-center w-full">
                             <div class="order-1 w-5/12"></div>
-                            <div class="z-10 flex items-center order-1 bg-gray-800 shadow-xl w-8 h-8 rounded-full">
-                                <span class="mx-auto font-semibold text-sm text-white">2</span>
-                            </div>
+                            <div class="z-10 flex items-center order-1 bg-gray-800 shadow-xl w-8 h-8 rounded-full"><span class="mx-auto font-semibold text-sm text-white">2</span></div>
                             <div class="order-1 bg-gray-900/50 backdrop-blur-md rounded-lg shadow-xl w-5/12 px-6 py-4">
                                 <h3 class="font-bold text-white text-xl">新的里程碑</h3>
                                 <p class="text-sm font-medium text-gray-400">2022年</p>
                                 <p class="text-sm text-gray-500 mt-2">记录下另一个值得纪念的瞬间，可以是一次旅行、一个项目或是一个感悟。</p>
                             </div>
                         </div>
-                        <div class="flex justify-between items-center w-full">
+                         <div class="flex justify-between items-center w-full">
                             <div class="order-1 w-5/12"></div>
-                            <div class="z-10 flex items-center order-1 bg-gray-800 shadow-xl w-8 h-8 rounded-full">
-                                <span class="mx-auto font-semibold text-sm text-white">3</span>
-                            </div>
+                            <div class="z-10 flex items-center order-1 bg-gray-800 shadow-xl w-8 h-8 rounded-full"><span class="mx-auto font-semibold text-sm text-white">3</span></div>
                             <div class="order-1 bg-gray-900/50 backdrop-blur-md rounded-lg shadow-xl w-5/12 px-6 py-4">
                                 <h3 class="font-bold text-white text-xl">持续前行</h3>
                                 <p class="text-sm font-medium text-gray-400">2024年</p>
@@ -206,7 +205,7 @@
                 <div class="flex justify-center items-center space-x-4">
                     <a href="https://beian.miit.gov.cn/" target="_blank" class="hover:text-gray-300 transition-colors">京ICP备2025XXXXXX号-1</a>
                     <a href="http://www.beian.gov.cn/portal/registerSystemInfo" target="_blank" class="hover:text-gray-300 transition-colors inline-flex items-center">
-                        <img src="https://placehold.co/20x20/ffffff/000000?text=公" class="mr-1 h-4 w-4" alt="Public Security Bureau icon">
+                        <img src="https://placehold.co/20x20/ffffff/000000?text=公" class="mr-1 h-4 w-4" alt="公安备案图标">
                         京公网安备 XXXXXXXXXXXXXX号
                     </a>
                 </div>
@@ -214,6 +213,7 @@
         </footer>
     </div> <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // --- DOM 元素 ---
             const elements = {
                 navLinks: document.querySelectorAll('.nav-link, .mobile-nav-link'),
                 contentSections: document.querySelectorAll('.content-section'),
@@ -222,9 +222,10 @@
                 menuOpenIcon: document.getElementById('menu-open-icon'),
                 menuCloseIcon: document.getElementById('menu-close-icon'),
                 typedTextSpan: document.getElementById('typed-text'),
-                homeSection: document.getElementById('home') // Get home section specifically
+                videoOverlay: document.querySelector('.video-overlay')
             };
 
+            // --- 函数 ---
             const toggleMobileMenu = () => {
                 elements.mobileNav.classList.toggle('hidden');
                 elements.menuOpenIcon.classList.toggle('hidden');
@@ -232,26 +233,17 @@
             };
 
             const switchContent = (targetId) => {
-                // The #home section is a special case because it's a background
-                // We hide or show its content (the typing container), but the section itself stays
-                if (targetId === 'home') {
-                    elements.homeSection.style.zIndex = -1; // Move to back
-                } else {
-                    elements.homeSection.style.zIndex = -2; // Hide it far behind
-                }
-
                 elements.contentSections.forEach(section => {
-                    // We don't hide the home section itself, just its content might be covered
-                    if (section.id !== 'home') {
-                        section.classList.toggle('hidden', section.id !== targetId);
-                    }
+                    section.classList.toggle('active', section.id === targetId);
                 });
-                
                 elements.navLinks.forEach(link => {
                     link.classList.toggle('active', link.dataset.target === targetId);
                 });
+                // 当不在首页时，隐藏视频背景的遮罩，让背景更暗
+                elements.videoOverlay.style.backgroundColor = targetId === 'home' ? 'rgba(0,0,0,0.6)' : 'rgba(0,0,0,0.85)';
             };
 
+            // --- 事件监听 ---
             elements.navLinks.forEach(link => {
                 link.addEventListener('click', (event) => {
                     event.preventDefault();
@@ -265,38 +257,27 @@
 
             elements.menuButton.addEventListener('click', toggleMobileMenu);
 
-            // Typing animation logic
+            // --- 打字动画 ---
             if (elements.typedTextSpan) {
                 const textArray = ["记录生活。", "分享美好。", "收藏光影。"];
-                let textArrayIndex = 0;
-                let charIndex = 0;
-                let isErasing = false;
-                const typeSpeed = 150;
-                const eraseSpeed = 100;
-                const delay = 2000;
+                let textArrayIndex = 0, charIndex = 0, isErasing = false;
+                const typeSpeed = 150, eraseSpeed = 100, delay = 2000;
 
                 const type = () => {
                     const currentText = textArray[textArrayIndex];
                     if (isErasing) {
                         elements.typedTextSpan.textContent = currentText.substring(0, charIndex--);
-                        if (charIndex < 0) {
-                            isErasing = false;
-                            textArrayIndex = (textArrayIndex + 1) % textArray.length;
-                        }
+                        if (charIndex < 0) { isErasing = false; textArrayIndex = (textArrayIndex + 1) % textArray.length; }
                     } else {
                         elements.typedTextSpan.textContent = currentText.substring(0, charIndex++);
-                        if (charIndex > currentText.length) {
-                            isErasing = true;
-                            setTimeout(type, delay);
-                            return;
-                        }
+                        if (charIndex > currentText.length) { isErasing = true; setTimeout(type, delay); return; }
                     }
                     setTimeout(type, isErasing ? eraseSpeed : typeSpeed);
                 };
                 setTimeout(type, delay);
             }
             
-            // Initial state
+            // --- 初始状态 ---
             switchContent('home');
         });
     </script>
