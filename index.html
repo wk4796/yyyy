@@ -3,351 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>个人生活记录</title>
+    <title>光影瞬间</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        /* --- Base & Typography --- */
-        body {
-            font-family: 'Noto Serif SC', serif;
-            background-color: #0d0d0d; /* Slightly softer black */
-            color: #e0e0e0;
+        :root {
+            --background-dark: #101010;
+            --primary-text: #EAEAEA;
+            --secondary-text: #A0A0A0;
+            --accent-color: #BEB8AC;
+            --card-background: #181818;
+            --border-color: #282828;
         }
         html {
             scroll-behavior: smooth;
         }
-        /* Accent Color */
-        :root {
-            --accent-color: #c9a47e; /* A warm, elegant gold */
+        body {
+            background-color: var(--background-dark);
+            color: var(--primary-text);
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 300;
         }
-
-        /* --- Header & Navigation --- */
-        .nav-link {
-            position: relative;
-            transition: color 0.4s ease;
+        .font-brand {
+            font-family: 'Ma Shan Zheng', cursive;
         }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -6px;
-            left: 50%;
-            background-color: var(--accent-color);
-            transition: all 0.4s ease-out;
-            transform: translateX(-50%);
+        .active-nav {
+            color: var(--primary-text) !important;
+            font-weight: 500;
         }
-        .nav-link.active,
-        .nav-link:hover {
-            color: white;
+        .gallery-item {
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        .nav-link.active::after,
-        .nav-link:hover::after {
-            width: 100%;
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.3);
         }
-
-        /* --- Home Section & Typing Effect --- */
-        #home {
-            height: 100vh;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            overflow: hidden;
-        }
-        #bg-video {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            z-index: -1;
-            transform: translateX(-50%) translateY(-50%);
-            filter: brightness(0.4) blur(2px); /* Slightly blurred background for focus */
-        }
-        .typing-container {
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: white;
-            text-shadow: 0 2px 15px rgba(0,0,0,0.7);
-        }
-        .cursor {
-            display: inline-block;
-            width: 3px;
-            height: 3.5rem;
-            background-color: var(--accent-color); /* Use accent color for cursor */
-            animation: blink 1s infinite;
-            margin-left: 8px;
-            vertical-align: middle;
-            box-shadow: 0 0 8px var(--accent-color);
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        /* --- Fade-in Animation --- */
-        .fade-in-section {
+        .fade-in {
             opacity: 0;
             transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transition: opacity 1s cubic-bezier(0.645, 0.045, 0.355, 1), transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
         }
-        .fade-in-section.is-visible {
+        .fade-in.visible {
             opacity: 1;
             transform: translateY(0);
         }
-        
-        /* --- About Me Section --- */
-        .about-card {
-            background-color: rgba(22, 22, 22, 0.7); /* Darker, glassy background */
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-        }
-        /* Gradient border effect */
-        .about-card::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: 1rem; /* 16px */
-            padding: 1px;
-            background: linear-gradient(135deg, var(--accent-color), rgba(201, 164, 126, 0.2), #161616);
-            -webkit-mask: 
-                linear-gradient(#fff 0 0) content-box, 
-                linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            pointer-events: none;
-        }
-        
-        /* --- Gallery Section --- */
-        .gallery-img-container {
-            overflow: hidden;
-            border-radius: 0.75rem; /* 12px */
-            position: relative; /* Needed for overlay */
-        }
-        .gallery-img {
-            transition: transform 0.5s ease;
-        }
-        .gallery-img-container:hover .gallery-img {
-            transform: scale(1.1);
-        }
-        /* Gallery overlay effect */
-        .gallery-overlay {
-            position: absolute;
-            inset: 0;
-            background-color: rgba(0, 0, 0, 0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .hero-text-container {
+            animation: fadeInText 2s 0.5s forwards;
             opacity: 0;
-            transition: opacity 0.4s ease;
         }
-        .gallery-img-container:hover .gallery-overlay {
-            opacity: 1;
+        @keyframes fadeInText {
+            to {
+                opacity: 1;
+            }
         }
-        .gallery-overlay i {
-            font-size: 2.5rem;
-            color: white;
-            transform: scale(0.8);
-            transition: transform 0.4s ease;
-        }
-        .gallery-img-container:hover .gallery-overlay i {
-            transform: scale(1);
-        }
-
     </style>
 </head>
-<body class="bg-gray-900 text-gray-300">
+<body class="antialiased">
 
-    <header class="bg-black/30 backdrop-blur-md fixed top-0 left-0 right-0 z-50">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#home" class="text-2xl font-bold text-white tracking-wider">记录</a>
-            <nav class="hidden md:flex items-center space-x-8">
-                <a href="#home" class="nav-link active" data-target="home">首页</a>
-                <a href="#about" class="nav-link" data-target="about">关于我</a>
-                <a href="#gallery" class="nav-link" data-target="gallery">图片集</a>
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-6 py-5 flex justify-between items-center">
+            <a href="#hero" class="font-brand text-3xl text-white">瞬间</a>
+            <nav class="hidden md:flex items-center space-x-10">
+                <a href="#about" class="nav-link text-lg text-gray-400 hover:text-white transition-colors duration-300">关于</a>
+                <a href="#gallery" class="nav-link text-lg text-gray-400 hover:text-white transition-colors duration-300">光影</a>
+                <a href="#contact" class="nav-link text-lg text-gray-400 hover:text-white transition-colors duration-300">联系</a>
             </nav>
-            <button id="mobile-menu-button" class="md:hidden text-gray-300 hover:text-white focus:outline-none z-50">
-                <svg id="menu-open-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" /></svg>
-                <svg id="menu-close-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            <button id="mobile-menu-btn" class="md:hidden text-white z-50">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
             </button>
         </div>
-        <nav id="mobile-nav" class="hidden md:hidden bg-black/50 backdrop-blur-md">
-            <div class="px-6 pb-4 pt-2 space-y-2">
-                <a href="#home" class="mobile-nav-link block text-center py-2 rounded-md text-gray-300 hover:bg-gray-800 hover:text-white" data-target="home">首页</a>
-                <a href="#about" class="mobile-nav-link block text-center py-2 rounded-md text-gray-300 hover:bg-gray-800 hover:text-white" data-target="about">关于我</a>
-                <a href="#gallery" class="mobile-nav-link block text-center py-2 rounded-md text-gray-300 hover:bg-gray-800 hover:text-white" data-target="gallery">图片集</a>
-            </div>
-        </nav>
     </header>
+    
+    <div id="mobile-menu" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-40 flex justify-center items-center">
+        <nav class="flex flex-col items-center space-y-8">
+            <a href="#about" class="mobile-link text-3xl text-gray-300">关于</a>
+            <a href="#gallery" class="mobile-link text-3xl text-gray-300">光影</a>
+            <a href="#contact" class="mobile-link text-3xl text-gray-300">联系</a>
+        </nav>
+    </div>
 
     <main>
-        <section id="home">
-            <video autoplay muted loop id="bg-video">
-                <source src="https://placehold.co/assets/videos/time-lapse-video-of-night-sky-857251.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <div class="typing-container">
-                <span id="typed-text"></span><span class="cursor"></span>
+
+        <section id="hero" class="h-screen w-full flex items-center justify-center relative bg-black">
+            <div class="absolute inset-0 bg-cover bg-center opacity-40" style="background-image: url('https://images.unsplash.com/photo-1502920514358-90b23d79b98d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1800&q=80');"></div>
+            <div class="text-center z-10 hero-text-container">
+                <h1 class="font-brand text-7xl md:text-9xl text-white tracking-wider">光影瞬间</h1>
+                <p class="text-xl md:text-2xl text-gray-300 mt-4 tracking-widest">一个行者的影像记录</p>
             </div>
         </section>
 
-        <section id="about" class="py-24 md:py-32 fade-in-section">
+        <section id="about" class="py-24 md:py-40">
             <div class="container mx-auto px-6">
-                <div class="max-w-4xl mx-auto about-card rounded-2xl p-8 md:p-12">
-                    <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-                        <img src="https://placehold.co/300x300/e0e0e0/333333?text=头像" alt="个人头像" class="w-48 h-48 md:w-56 md:h-56 rounded-full object-cover shadow-2xl flex-shrink-0 border-4 border-gray-700/50">
-                        <div class="text-center md:text-left flex-grow">
-                            <h2 class="text-4xl font-bold text-white mb-4">你好，我是 Alex</h2>
-                            <p class="text-lg leading-relaxed text-gray-400">
-                                一个热爱生活、喜欢用镜头和文字捕捉瞬间的行者。我相信，每一个平凡的日子里，都藏着不平凡的诗意。这个小站，是我收藏光影与思绪的地方。
-                            </p>
-                        </div>
+                <div class="max-w-4xl mx-auto grid md:grid-cols-3 gap-12 items-center">
+                    <div class="md:col-span-1 fade-in">
+                        <img src="https://placehold.co/400x400/e0e0e0/333333?text=头像" alt="个人头像" class="rounded-full aspect-square object-cover w-full max-w-xs mx-auto">
+                    </div>
+                    <div class="md:col-span-2 text-center md:text-left fade-in" style="transition-delay: 200ms;">
+                        <h2 class="font-brand text-4xl mb-6 text-white">你好，我是[你的名字]</h2>
+                        <p class="text-lg text-gray-400 leading-relaxed mb-4">
+                            一个热爱生活、喜欢用镜头和文字捕捉瞬间的行者。我相信，每一个平凡的日子里，都藏着不平凡的诗意。这个小站，是我收藏光影与思绪的地方。
+                        </p>
+                        <p class="text-lg text-gray-400 leading-relaxed">
+                            欢迎来到我的世界，愿你也能在这里找到片刻的宁静与美好。
+                        </p>
                     </div>
                 </div>
             </div>
         </section>
-        
-        <section id="gallery" class="py-24 md:py-32 fade-in-section">
+
+        <section id="gallery" class="py-24 md:py-40 bg-black">
             <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-4xl font-bold text-white">图片集</h2>
-                    <p class="text-lg text-gray-400 mt-2">生活的片段，光影的诗篇</p>
+                <div class="text-center mb-20 fade-in">
+                    <h2 class="font-brand text-5xl md:text-6xl text-white">光影集</h2>
+                    <p class="text-xl text-gray-500 mt-2">生活的片段，光影的诗篇</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <a href="#" class="gallery-img-container block shadow-2xl">
-                        <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
-                        <img class="gallery-img w-full h-full object-cover" src="https://images.unsplash.com/photo-1519677100203-a0e668c97489?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="夜晚街角的照片">
-                    </a>
-                    <a href="#" class="gallery-img-container block shadow-2xl md:translate-y-10">
-                        <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
-                        <img class="gallery-img w-full h-full object-cover" src="https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="阳光穿透森林的照片">
-                    </a>
-                    <a href="#" class="gallery-img-container block shadow-2xl">
-                        <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
-                        <img class="gallery-img w-full h-full object-cover" src="https://images.unsplash.com/photo-1502920514358-90b23d79b98d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="海边日落的照片">
-                    </a>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <div class="group gallery-item fade-in">
+                        <div class="overflow-hidden rounded-lg">
+                            <img src="https://images.unsplash.com/photo-1519677100203-a0e668c97489?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="夜晚街角" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out">
+                        </div>
+                        <h3 class="text-xl text-white mt-4">城市夜曲</h3>
+                        <p class="text-gray-500">霓虹下的寂静与喧嚣</p>
+                    </div>
+                    <div class="group gallery-item fade-in" style="transition-delay: 200ms;">
+                         <div class="overflow-hidden rounded-lg">
+                            <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="阳光森林" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out">
+                        </div>
+                        <h3 class="text-xl text-white mt-4">林间光语</h3>
+                        <p class="text-gray-500">阳光穿透树叶的低语</p>
+                    </div>
+                    <div class="group gallery-item fade-in" style="transition-delay: 400ms;">
+                         <div class="overflow-hidden rounded-lg">
+                            <img src="https://images.unsplash.com/photo-1488441774681-70db22a24742?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="山峦" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out">
+                        </div>
+                        <h3 class="text-xl text-white mt-4">远山呼唤</h3>
+                        <p class="text-gray-500">云雾缭绕的层峦叠嶂</p>
+                    </div>
                 </div>
             </div>
         </section>
+
+        <section id="contact" class="py-24 md:py-40">
+            <div class="container mx-auto px-6 text-center max-w-3xl fade-in">
+                <h2 class="font-brand text-5xl md:text-6xl text-white mb-6">保持联系</h2>
+                <p class="text-xl text-gray-400 leading-relaxed mb-10">
+                    如果你想和我交流摄影，或者仅仅是打个招呼，随时欢迎通过邮件联系我。
+                </p>
+                <a href="mailto:your-email@example.com" class="inline-block bg-transparent border border-accent-color text-accent-color font-bold py-3 px-8 rounded-full hover:bg-accent-color hover:text-black transition-all duration-300 text-lg">
+                    发送邮件
+                </a>
+            </div>
+        </section>
+
     </main>
 
-    <footer class="bg-black/50 border-t border-gray-800/50 mt-20">
-        <div class="container mx-auto px-6 py-8 text-center text-gray-500">
-            <p class="text-sm mb-4">&copy; 2025 个人生活记录. 保留所有权利.</p>
-            <div class="flex justify-center items-center space-x-4 text-xs">
-                <a href="https://beian.miit.gov.cn/" target="_blank" class="hover:text-gray-300 transition-colors">京ICP备2025XXXXXX号-1</a>
-                <span>|</span>
-                <a href="http://www.beian.gov.cn/portal/registerSystemInfo" target="_blank" class="hover:text-gray-300 transition-colors inline-flex items-center">
-                    <img src="https://placehold.co/20x20/ffffff/000000?text=公" class="mr-2 h-4 w-4" alt="公安备案图标">
-                    京公网安备 XXXXXXXXXXXXXX号
-                </a>
+    <footer class="bg-black py-8">
+        <div class="container mx-auto px-6 text-center text-gray-600">
+            <p>&copy; 2025 光影瞬间. All Rights Reserved.</p>
+            <div class="mt-4 text-xs">
+                 <a href="https://beian.miit.gov.cn/" target="_blank" class="hover:text-gray-400 transition-colors">京ICP备2025XXXXXX号-1</a>
             </div>
         </div>
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- Typing Effect ---
-            const typedTextSpan = document.getElementById("typed-text");
-            if (typedTextSpan) {
-                const textArray = ["记录生活。", "分享美好。", "收藏光影。"];
-                const typingDelay = 150;
-                const erasingDelay = 100;
-                const newTextDelay = 2000;
-                let textArrayIndex = 0;
-                let charIndex = 0;
+    document.addEventListener('DOMContentLoaded', () => {
 
-                function type() {
-                    if (charIndex < textArray[textArrayIndex].length) {
-                        typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex);
-                        charIndex++;
-                        setTimeout(type, typingDelay);
-                    } else {
-                        setTimeout(erase, newTextDelay);
-                    }
-                }
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        
+        const toggleMenu = () => mobileMenu.classList.toggle('hidden');
+        
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
 
-                function erase() {
-                    if (charIndex > 0) {
-                        typedTextSpan.textContent = textArray[textArrayIndex].substring(0, charIndex - 1);
-                        charIndex--;
-                        setTimeout(erase, erasingDelay);
-                    } else {
-                        textArrayIndex = (textArrayIndex + 1) % textArray.length;
-                        setTimeout(type, typingDelay + 1100);
-                    }
-                }
-                
-                setTimeout(type, newTextDelay + 250);
+        // Header Style on Scroll
+        const header = document.getElementById('main-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('bg-black/80', 'backdrop-blur-sm');
+            } else {
+                header.classList.remove('bg-black/80', 'backdrop-blur-sm');
             }
+        });
 
-            // --- Mobile Menu Toggle ---
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileNav = document.getElementById('mobile-nav');
-            const menuOpenIcon = document.getElementById('menu-open-icon');
-            const menuCloseIcon = document.getElementById('menu-close-icon');
-            
-            const toggleMenu = () => {
-                mobileNav.classList.toggle('hidden');
-                menuOpenIcon.classList.toggle('hidden');
-                menuCloseIcon.classList.toggle('hidden');
-            };
+        // Fade In on Scroll
+        const faders = document.querySelectorAll('.fade-in');
+        const appearOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -100px 0px"
+        };
 
-            mobileMenuButton.addEventListener('click', toggleMenu);
-            document.querySelectorAll('.mobile-nav-link').forEach(link => {
-                link.addEventListener('click', toggleMenu);
+        const appearOnScroll = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, appearOptions);
+
+        faders.forEach(fader => {
+            appearOnScroll.observe(fader);
+        });
+
+        // Active Nav Link Highlighting
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
             });
 
-            // --- Scroll Fade-in Effect ---
-            const faders = document.querySelectorAll('.fade-in-section');
-            if (faders.length > 0) {
-                const appearOptions = {
-                    threshold: 0.2,
-                    rootMargin: "0px 0px -50px 0px"
-                };
-                const appearOnScroll = new IntersectionObserver(function(entries, observer) {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('is-visible');
-                            observer.unobserve(entry.target);
-                        }
-                    });
-                }, appearOptions);
-
-                faders.forEach(fader => {
-                    appearOnScroll.observe(fader);
-                });
-            }
-
-            // --- Active Navigation Link Highlighting ---
-            const sections = document.querySelectorAll('section');
-            const navLinks = document.querySelectorAll('.nav-link');
-            
-            window.addEventListener('scroll', () => {
-                let currentSectionId = 'home';
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    if (window.scrollY >= sectionTop - 70) { // 70 is header height
-                        currentSectionId = section.getAttribute('id');
-                    }
-                });
-
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.dataset.target === currentSectionId) {
-                        link.classList.add('active');
-                    }
-                });
+            navLinks.forEach(link => {
+                link.classList.remove('active-nav');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active-nav');
+                }
             });
         });
+    });
     </script>
 </body>
 </html>
