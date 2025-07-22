@@ -31,6 +31,7 @@
     <header class="bg-white shadow-sm sticky top-0 z-10">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <h1 class="text-2xl font-bold text-slate-900">个人生活记录</h1>
+            <!-- 桌面端导航 -->
             <nav class="hidden md:flex space-x-8">
                 <a href="#" class="text-slate-600 hover:text-blue-600 transition-colors">首页</a>
                 <a href="#" class="text-slate-600 hover:text-blue-600 transition-colors">分类</a>
@@ -38,12 +39,19 @@
                 <a href="#" class="text-slate-600 hover:text-blue-600 transition-colors">关于我</a>
             </nav>
             <!-- 移动端菜单按钮 -->
-            <button class="md:hidden text-slate-600">
+            <button id="mobile-menu-button" class="md:hidden text-slate-600 hover:text-blue-600 focus:outline-none">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                 </svg>
             </button>
         </div>
+        <!-- 移动端导航菜单 (默认隐藏) -->
+        <nav id="mobile-nav" class="hidden md:hidden px-6 pb-4">
+            <a href="#" class="block text-center py-2 text-slate-600 hover:bg-slate-100 hover:text-blue-600 rounded-md">首页</a>
+            <a href="#" class="block text-center py-2 text-slate-600 hover:bg-slate-100 hover:text-blue-600 rounded-md">分类</a>
+            <a href="#" class="block text-center py-2 text-slate-600 hover:bg-slate-100 hover:text-blue-600 rounded-md">归档</a>
+            <a href="#" class="block text-center py-2 text-slate-600 hover:bg-slate-100 hover:text-blue-600 rounded-md">关于我</a>
+        </nav>
     </header>
 
     <!-- 主体内容区域 -->
@@ -52,38 +60,42 @@
 
             <!-- 记录卡片 1 -->
             <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover">
-                <img src="https://placehold.co/600x400/a7c5eb/ffffff?text=旅行" alt="旅行风景图" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <p class="text-sm text-slate-500 mb-2">2025年7月21日</p>
-                    <h2 class="text-xl font-bold mb-3 text-slate-900">一场说走就走的旅行</h2>
-                    <p class="text-slate-600 mb-4">整理好行囊，告别城市的喧嚣，踏上了一段未知的旅程。阳光、山川和海风，都是最好的治愈...</p>
-                    <a href="#" class="font-semibold text-blue-600 hover:text-blue-800 transition-colors">阅读全文 &rarr;</a>
-                </div>
+                <a href="#" class="block">
+                    <img src="https://placehold.co/600x400/a7c5eb/ffffff?text=旅行" alt="旅行风景图" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <p class="text-sm text-slate-500 mb-2">2025年7月21日</p>
+                        <h2 class="text-xl font-bold mb-3 text-slate-900">一场说走就走的旅行</h2>
+                        <p class="text-slate-600 mb-4">整理好行囊，告别城市的喧嚣，踏上了一段未知的旅程。阳光、山川和海风，都是最好的治愈...</p>
+                        <span class="font-semibold text-blue-600 hover:text-blue-800 transition-colors">阅读全文 &rarr;</span>
+                    </div>
+                </a>
             </div>
 
             <!-- 记录卡片 2 -->
             <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover">
-                <img src="https://placehold.co/600x400/f0b8b8/ffffff?text=美食" alt="美食图片" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <p class="text-sm text-slate-500 mb-2">2025年7月15日</p>
-                    <h2 class="text-xl font-bold mb-3 text-slate-900">城市角落的美食探店</h2>
-                    <p class="text-slate-600 mb-4">在一条不起眼的小巷里，发现了一家宝藏小店。每一道菜都充满了故事，温暖了味蕾和心灵。</p>
-                    <a href="#" class="font-semibold text-blue-600 hover:text-blue-800 transition-colors">阅读全文 &rarr;</a>
-                </div>
+                <a href="#" class="block">
+                    <img src="https://placehold.co/600x400/f0b8b8/ffffff?text=美食" alt="美食图片" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <p class="text-sm text-slate-500 mb-2">2025年7月15日</p>
+                        <h2 class="text-xl font-bold mb-3 text-slate-900">城市角落的美食探店</h2>
+                        <p class="text-slate-600 mb-4">在一条不起眼的小巷里，发现了一家宝藏小店。每一道菜都充满了故事，温暖了味蕾和心灵。</p>
+                        <span class="font-semibold text-blue-600 hover:text-blue-800 transition-colors">阅读全文 &rarr;</span>
+                    </div>
+                </a>
             </div>
 
             <!-- 记录卡片 3 -->
             <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover">
-                <img src="https://placehold.co/600x400/c3e6cb/ffffff?text=日常" alt="咖啡与书" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <p class="text-sm text-slate-500 mb-2">2025年7月10日</p>
-                    <h2 class="text-xl font-bold mb-3 text-slate-900">周末午后的咖啡与书</h2>
-                    <p class="text-slate-600 mb-4">一个悠闲的周末，一杯手冲咖啡，一本好书。享受这份宁静与惬意，是生活中的小确幸。</p>
-                    <a href="#" class="font-semibold text-blue-600 hover:text-blue-800 transition-colors">阅读全文 &rarr;</a>
-                </div>
+                <a href="#" class="block">
+                    <img src="https://placehold.co/600x400/c3e6cb/ffffff?text=日常" alt="咖啡与书" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <p class="text-sm text-slate-500 mb-2">2025年7月10日</p>
+                        <h2 class="text-xl font-bold mb-3 text-slate-900">周末午后的咖啡与书</h2>
+                        <p class="text-slate-600 mb-4">一个悠闲的周末，一杯手冲咖啡，一本好书。享受这份宁静与惬意，是生活中的小确幸。</p>
+                        <span class="font-semibold text-blue-600 hover:text-blue-800 transition-colors">阅读全文 &rarr;</span>
+                    </div>
+                </a>
             </div>
-
-            <!-- 更多卡片可以添加在这里 -->
 
         </div>
 
@@ -134,6 +146,19 @@
             </div>
         </div>
     </footer>
+
+    <!-- JavaScript 代码，用于处理移动端菜单的点击事件 -->
+    <script>
+        // 获取移动端菜单按钮和导航菜单元素
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileNav = document.getElementById('mobile-nav');
+
+        // 为按钮添加点击事件监听器
+        mobileMenuButton.addEventListener('click', () => {
+            // 切换导航菜单的 'hidden' 类，实现显示/隐藏效果
+            mobileNav.classList.toggle('hidden');
+        });
+    </script>
 
 </body>
 </html>
