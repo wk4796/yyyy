@@ -10,26 +10,32 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* --- Base and Font Styles --- */
-        html, body {
+        html {
             height: 100%;
         }
         body {
             font-family: 'Noto Serif SC', serif;
             background-color: #121212;
             color: #e0e0e0;
-            /* --- Sticky Footer Style --- */
+            min-height: 100%;
+            /* Add padding to body to account for fixed header height */
+            /* 68px is a typical height for this header, adjust if needed */
+            padding-top: 68px; 
+        }
+
+        /* --- Sticky Footer Wrapper --- */
+        .site-wrapper {
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
+            flex-grow: 1;
+        }
+        main {
+            flex-grow: 1;
         }
 
         /* --- Layout --- */
-        main {
-            /* --- Sticky Footer Style --- */
-            flex-grow: 1;
-        }
         .content-section:not(#home) {
-            padding-top: 120px;
+            padding-top: 60px; /* Reduced padding since body has padding now */
             padding-bottom: 120px;
         }
 
@@ -40,6 +46,15 @@
         }
 
         /* --- Home Section & Video Background --- */
+        #home {
+            /* Position relative to body, not the wrapper */
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1; /* Place it behind all other content */
+        }
         #bg-video {
             position: absolute;
             top: 50%;
@@ -53,6 +68,11 @@
 
         /* --- Typing Animation --- */
         .typing-container {
+            /* This container needs to be visible when the home section is active */
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 3.5rem;
             font-weight: 700;
             color: white;
@@ -105,94 +125,94 @@
         </nav>
     </header>
 
-    <main>
-        <section id="home" class="content-section h-screen relative flex items-center justify-center text-center overflow-hidden">
-            <video autoplay muted loop id="bg-video">
-                <source src="https://placehold.co/assets/videos/time-lapse-video-of-night-sky-857251.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <div class="typing-container">
-                <span id="typed-text"></span><span class="cursor"></span>
-            </div>
-        </section>
+    <div class="site-wrapper">
+        <main>
+            <section id="home" class="content-section">
+                <video autoplay muted loop id="bg-video">
+                    <source src="https://placehold.co/assets/videos/time-lapse-video-of-night-sky-857251.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="typing-container">
+                    <span id="typed-text"></span><span class="cursor"></span>
+                </div>
+            </section>
 
-        <section id="about" class="content-section hidden">
-            <div class="container mx-auto px-6">
-                <div class="max-w-4xl mx-auto relative">
-                    <div class="md:absolute md:inset-0 bg-gray-800/20 rounded-2xl md:-rotate-3"></div>
-                    <div class="relative bg-gray-900/50 backdrop-blur-lg rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-12">
-                        <img src="https://placehold.co/300x300/e0e0e0/333333?text=头像" alt="A personal avatar" class="w-48 h-48 md:w-60 md:h-60 rounded-full object-cover shadow-2xl shrink-0 border-4 border-gray-700">
-                        <div class="text-center md:text-left">
-                            <h1 class="text-4xl font-bold text-white mb-4">你好，我是[你的名字]</h1>
-                            <p class="text-lg leading-relaxed text-gray-400">
-                                一个热爱生活、喜欢用镜头和文字捕捉瞬间的行者。我相信，每一个平凡的日子里，都藏着不平凡的诗意。这个小站，是我收藏光影与思绪的地方。
-                            </p>
+            <section id="about" class="content-section hidden">
+                <div class="container mx-auto px-6">
+                    <div class="max-w-4xl mx-auto relative">
+                        <div class="md:absolute md:inset-0 bg-gray-800/20 rounded-2xl md:-rotate-3"></div>
+                        <div class="relative bg-gray-900/50 backdrop-blur-lg rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-12">
+                            <img src="https://placehold.co/300x300/e0e0e0/333333?text=头像" alt="A personal avatar" class="w-48 h-48 md:w-60 md:h-60 rounded-full object-cover shadow-2xl shrink-0 border-4 border-gray-700">
+                            <div class="text-center md:text-left">
+                                <h1 class="text-4xl font-bold text-white mb-4">你好，我是[你的名字]</h1>
+                                <p class="text-lg leading-relaxed text-gray-400">
+                                    一个热爱生活、喜欢用镜头和文字捕捉瞬间的行者。我相信，每一个平凡的日子里，都藏着不平凡的诗意。这个小站，是我收藏光影与思绪的地方。
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-        
-        <section id="timeline" class="content-section hidden">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h1 class="text-4xl font-bold text-white">我的足迹</h1>
-                    <p class="text-lg text-gray-400 mt-2">时间为轴，镌刻生命中的点滴</p>
+            </section>
+            
+            <section id="timeline" class="content-section hidden">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16">
+                        <h1 class="text-4xl font-bold text-white">我的足迹</h1>
+                        <p class="text-lg text-gray-400 mt-2">时间为轴，镌刻生命中的点滴</p>
+                    </div>
+                    <div class="relative max-w-2xl mx-auto">
+                        <div class="absolute left-1/2 top-0 h-full w-0.5 bg-gray-700"></div>
+                        <div class="mb-8 flex justify-between items-center w-full">
+                            <div class="order-1 w-5/12"></div>
+                            <div class="z-10 flex items-center order-1 bg-gray-800 shadow-xl w-8 h-8 rounded-full">
+                                <span class="mx-auto font-semibold text-sm text-white">1</span>
+                            </div>
+                            <div class="order-1 bg-gray-900/50 backdrop-blur-md rounded-lg shadow-xl w-5/12 px-6 py-4">
+                                <h3 class="font-bold text-white text-xl">开启探索之旅</h3>
+                                <p class="text-sm font-medium text-gray-400">2020年</p>
+                                <p class="text-sm text-gray-500 mt-2">在这里写下那一年发生的重要事件或心路历程的简短描述。</p>
+                            </div>
+                        </div>
+                        <div class="mb-8 flex justify-between flex-row-reverse items-center w-full">
+                            <div class="order-1 w-5/12"></div>
+                            <div class="z-10 flex items-center order-1 bg-gray-800 shadow-xl w-8 h-8 rounded-full">
+                                <span class="mx-auto font-semibold text-sm text-white">2</span>
+                            </div>
+                            <div class="order-1 bg-gray-900/50 backdrop-blur-md rounded-lg shadow-xl w-5/12 px-6 py-4">
+                                <h3 class="font-bold text-white text-xl">新的里程碑</h3>
+                                <p class="text-sm font-medium text-gray-400">2022年</p>
+                                <p class="text-sm text-gray-500 mt-2">记录下另一个值得纪念的瞬间，可以是一次旅行、一个项目或是一个感悟。</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center w-full">
+                            <div class="order-1 w-5/12"></div>
+                            <div class="z-10 flex items-center order-1 bg-gray-800 shadow-xl w-8 h-8 rounded-full">
+                                <span class="mx-auto font-semibold text-sm text-white">3</span>
+                            </div>
+                            <div class="order-1 bg-gray-900/50 backdrop-blur-md rounded-lg shadow-xl w-5/12 px-6 py-4">
+                                <h3 class="font-bold text-white text-xl">持续前行</h3>
+                                <p class="text-sm font-medium text-gray-400">2024年</p>
+                                <p class="text-sm text-gray-500 mt-2">描述当下的状态或近期的成长与变化，展望未来的方向。</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="relative max-w-2xl mx-auto">
-                    <div class="absolute left-1/2 top-0 h-full w-0.5 bg-gray-700"></div>
-                    <div class="mb-8 flex justify-between items-center w-full">
-                        <div class="order-1 w-5/12"></div>
-                        <div class="z-10 flex items-center order-1 bg-gray-800 shadow-xl w-8 h-8 rounded-full">
-                            <span class="mx-auto font-semibold text-sm text-white">1</span>
-                        </div>
-                        <div class="order-1 bg-gray-900/50 backdrop-blur-md rounded-lg shadow-xl w-5/12 px-6 py-4">
-                            <h3 class="font-bold text-white text-xl">开启探索之旅</h3>
-                            <p class="text-sm font-medium text-gray-400">2020年</p>
-                            <p class="text-sm text-gray-500 mt-2">在这里写下那一年发生的重要事件或心路历程的简短描述。</p>
-                        </div>
-                    </div>
-                    <div class="mb-8 flex justify-between flex-row-reverse items-center w-full">
-                        <div class="order-1 w-5/12"></div>
-                        <div class="z-10 flex items-center order-1 bg-gray-800 shadow-xl w-8 h-8 rounded-full">
-                            <span class="mx-auto font-semibold text-sm text-white">2</span>
-                        </div>
-                        <div class="order-1 bg-gray-900/50 backdrop-blur-md rounded-lg shadow-xl w-5/12 px-6 py-4">
-                            <h3 class="font-bold text-white text-xl">新的里程碑</h3>
-                            <p class="text-sm font-medium text-gray-400">2022年</p>
-                            <p class="text-sm text-gray-500 mt-2">记录下另一个值得纪念的瞬间，可以是一次旅行、一个项目或是一个感悟。</p>
-                        </div>
-                    </div>
-                    <div class="flex justify-between items-center w-full">
-                        <div class="order-1 w-5/12"></div>
-                        <div class="z-10 flex items-center order-1 bg-gray-800 shadow-xl w-8 h-8 rounded-full">
-                            <span class="mx-auto font-semibold text-sm text-white">3</span>
-                        </div>
-                        <div class="order-1 bg-gray-900/50 backdrop-blur-md rounded-lg shadow-xl w-5/12 px-6 py-4">
-                            <h3 class="font-bold text-white text-xl">持续前行</h3>
-                            <p class="text-sm font-medium text-gray-400">2024年</p>
-                            <p class="text-sm text-gray-500 mt-2">描述当下的状态或近期的成长与变化，展望未来的方向。</p>
-                        </div>
-                    </div>
+            </section>
+        </main>
+
+        <footer class="bg-black/50 border-t border-gray-800">
+            <div class="container mx-auto px-6 py-6 text-center text-gray-500 text-xs">
+                <p class="mb-2">&copy; 2025 个人生活记录. 保留所有权利.</p>
+                <div class="flex justify-center items-center space-x-4">
+                    <a href="https://beian.miit.gov.cn/" target="_blank" class="hover:text-gray-300 transition-colors">京ICP备2025XXXXXX号-1</a>
+                    <a href="http://www.beian.gov.cn/portal/registerSystemInfo" target="_blank" class="hover:text-gray-300 transition-colors inline-flex items-center">
+                        <img src="https://placehold.co/20x20/ffffff/000000?text=公" class="mr-1 h-4 w-4" alt="Public Security Bureau icon">
+                        京公网安备 XXXXXXXXXXXXXX号
+                    </a>
                 </div>
             </div>
-        </section>
-    </main>
-
-    <footer class="bg-black/50 border-t border-gray-800">
-        <div class="container mx-auto px-6 py-6 text-center text-gray-500 text-xs">
-            <p class="mb-2">&copy; 2025 个人生活记录. 保留所有权利.</p>
-            <div class="flex justify-center items-center space-x-4">
-                <a href="https://beian.miit.gov.cn/" target="_blank" class="hover:text-gray-300 transition-colors">京ICP备2025XXXXXX号-1</a>
-                <a href="http://www.beian.gov.cn/portal/registerSystemInfo" target="_blank" class="hover:text-gray-300 transition-colors inline-flex items-center">
-                    <img src="https://placehold.co/20x20/ffffff/000000?text=公" class="mr-1 h-4 w-4" alt="Public Security Bureau icon">
-                    京公网安备 XXXXXXXXXXXXXX号
-                </a>
-            </div>
-        </div>
-    </footer>
-
-    <script>
+        </footer>
+    </div> <script>
         document.addEventListener('DOMContentLoaded', () => {
             const elements = {
                 navLinks: document.querySelectorAll('.nav-link, .mobile-nav-link'),
@@ -201,7 +221,8 @@
                 menuButton: document.getElementById('mobile-menu-button'),
                 menuOpenIcon: document.getElementById('menu-open-icon'),
                 menuCloseIcon: document.getElementById('menu-close-icon'),
-                typedTextSpan: document.getElementById('typed-text')
+                typedTextSpan: document.getElementById('typed-text'),
+                homeSection: document.getElementById('home') // Get home section specifically
             };
 
             const toggleMobileMenu = () => {
@@ -211,9 +232,21 @@
             };
 
             const switchContent = (targetId) => {
+                // The #home section is a special case because it's a background
+                // We hide or show its content (the typing container), but the section itself stays
+                if (targetId === 'home') {
+                    elements.homeSection.style.zIndex = -1; // Move to back
+                } else {
+                    elements.homeSection.style.zIndex = -2; // Hide it far behind
+                }
+
                 elements.contentSections.forEach(section => {
-                    section.classList.toggle('hidden', section.id !== targetId);
+                    // We don't hide the home section itself, just its content might be covered
+                    if (section.id !== 'home') {
+                        section.classList.toggle('hidden', section.id !== targetId);
+                    }
                 });
+                
                 elements.navLinks.forEach(link => {
                     link.classList.toggle('active', link.dataset.target === targetId);
                 });
