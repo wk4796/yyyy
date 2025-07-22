@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人生活记录</title>
+    <!-- 引入 Tailwind CSS，这是一个流行的CSS框架，用于快速构建美观的界面 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Google Fonts 的 Inter 字体，如果无法访问，会回退到系统默认字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* 自定义字体，优先使用 Noto Sans SC (思源黑体) 以获得更好的中文显示效果 */
+        body {
+            font-family: 'Inter', 'Noto Sans SC', sans-serif;
+        }
+        /* 简单的动画效果 */
+        .card-hover {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- 网站头部 -->
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-slate-900">个人生活记录</h1>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#" class="text-slate-600 hover:text-blue-600 transition-colors">首页</a>
+                <a href="#" class="text-slate-600 hover:text-blue-600 transition-colors">分类</a>
+                <a href="#" class="text-slate-600 hover:text-blue-600 transition-colors">归档</a>
+                <a href="#" class="text-slate-600 hover:text-blue-600 transition-colors">关于我</a>
+            </nav>
+            <!-- 移动端菜单按钮 -->
+            <button class="md:hidden text-slate-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- 主体内容区域 -->
+    <main class="container mx-auto px-6 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <!-- 记录卡片 1 -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover">
+                <img src="https://placehold.co/600x400/a7c5eb/ffffff?text=旅行" alt="旅行风景图" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <p class="text-sm text-slate-500 mb-2">2025年7月21日</p>
+                    <h2 class="text-xl font-bold mb-3 text-slate-900">一场说走就走的旅行</h2>
+                    <p class="text-slate-600 mb-4">整理好行囊，告别城市的喧嚣，踏上了一段未知的旅程。阳光、山川和海风，都是最好的治愈...</p>
+                    <a href="#" class="font-semibold text-blue-600 hover:text-blue-800 transition-colors">阅读全文 &rarr;</a>
+                </div>
+            </div>
+
+            <!-- 记录卡片 2 -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover">
+                <img src="https://placehold.co/600x400/f0b8b8/ffffff?text=美食" alt="美食图片" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <p class="text-sm text-slate-500 mb-2">2025年7月15日</p>
+                    <h2 class="text-xl font-bold mb-3 text-slate-900">城市角落的美食探店</h2>
+                    <p class="text-slate-600 mb-4">在一条不起眼的小巷里，发现了一家宝藏小店。每一道菜都充满了故事，温暖了味蕾和心灵。</p>
+                    <a href="#" class="font-semibold text-blue-600 hover:text-blue-800 transition-colors">阅读全文 &rarr;</a>
+                </div>
+            </div>
+
+            <!-- 记录卡片 3 -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover">
+                <img src="https://placehold.co/600x400/c3e6cb/ffffff?text=日常" alt="咖啡与书" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <p class="text-sm text-slate-500 mb-2">2025年7月10日</p>
+                    <h2 class="text-xl font-bold mb-3 text-slate-900">周末午后的咖啡与书</h2>
+                    <p class="text-slate-600 mb-4">一个悠闲的周末，一杯手冲咖啡，一本好书。享受这份宁静与惬意，是生活中的小确幸。</p>
+                    <a href="#" class="font-semibold text-blue-600 hover:text-blue-800 transition-colors">阅读全文 &rarr;</a>
+                </div>
+            </div>
+
+            <!-- 更多卡片可以添加在这里 -->
+
+        </div>
+
+        <!-- 分页导航 -->
+        <div class="mt-12 flex justify-center">
+            <nav class="flex rounded-md shadow-sm">
+                <a href="#" class="px-4 py-2 text-sm font-medium text-slate-500 bg-white border border-gray-200 rounded-l-md hover:bg-gray-50">
+                    &laquo; 上一页
+                </a>
+                <a href="#" class="px-4 py-2 text-sm font-medium text-slate-700 bg-white border-t border-b border-gray-200 hover:bg-gray-50">
+                    1
+                </a>
+                <a href="#" class="px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 border-t border-b border-gray-200 hover:bg-blue-100">
+                    2
+                </a>
+                <a href="#" class="px-4 py-2 text-sm font-medium text-slate-700 bg-white border-t border-b border-gray-200 hover:bg-gray-50">
+                    3
+                </a>
+                <a href="#" class="px-4 py-2 text-sm font-medium text-slate-500 bg-white border border-gray-200 rounded-r-md hover:bg-gray-50">
+                    下一页 &raquo;
+                </a>
+            </nav>
+        </div>
+
+    </main>
+
+    <!-- 网站页脚 -->
+    <footer class="bg-white border-t border-slate-200 mt-12">
+        <div class="container mx-auto px-6 py-8 text-center text-slate-500 text-sm">
+            <p class="mb-2">&copy; 2025 个人生活记录. 保留所有权利.</p>
+            
+            <!-- 
+                重要提示：备案信息
+                根据中国大陆法律法规，网站必须在页脚展示备案信息。
+                您需要在您的服务器提供商（如阿里云、腾讯云）处完成ICP备案和公安备案后，
+                将下面的占位符替换成您自己的真实备案号。
+            -->
+            <div class="space-x-4">
+                <!-- ICP备案号 -->
+                <a href="https://beian.miit.gov.cn/" target="_blank" class="hover:text-blue-600">
+                    京ICP备2025XXXXXX号-1
+                </a>
+                <!-- 公安备案号 -->
+                <a href="http://www.beian.gov.cn/portal/registerSystemInfo" target="_blank" class="hover:text-blue-600 inline-flex items-center">
+                    <img src="https://placehold.co/20x20/ffffff/000000?text=公" class="mr-1" alt="公安备案图标">
+                    京公网安备 XXXXXXXXXXXXXX号
+                </a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
