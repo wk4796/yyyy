@@ -9,31 +9,38 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* 使用更具设计感的衬线字体 */
+        /* --- Base and Font Styles --- */
         body {
             font-family: 'Noto Serif SC', serif;
-            background-color: #121212; /* 深色背景 */
+            background-color: #121212;
             color: #e0e0e0;
         }
-        /* 为非首页的内容区域增加上边距，防止被导航栏遮挡 */
-        #about, #timeline {
+
+        /* --- Layout --- */
+        .content-section:not(#home) {
             padding-top: 120px;
             padding-bottom: 120px;
         }
-        /* 全屏视频背景 (只保留视频相关样式) */
+
+        /* --- Navigation --- */
+        .nav-link.active {
+            color: white;
+            font-weight: 700;
+        }
+
+        /* --- Home Section & Video Background --- */
         #bg-video {
             position: absolute;
             top: 50%;
             left: 50%;
             min-width: 100%;
             min-height: 100%;
-            width: auto;
-            height: auto;
             z-index: -1;
             transform: translateX(-50%) translateY(-50%);
             filter: brightness(0.4);
         }
-        /* 动态打字效果 */
+
+        /* --- Typing Animation --- */
         .typing-container {
             font-size: 3.5rem;
             font-weight: 700;
@@ -45,20 +52,15 @@
             width: 3px;
             height: 3.5rem;
             background-color: white;
-            animation: blink 1s infinite;
             margin-left: 8px;
             vertical-align: middle;
+            animation: blink 1s infinite;
         }
         @keyframes blink {
-            0%, 100% { opacity: 1; }
             50% { opacity: 0; }
         }
-        /* 导航激活状态 */
-        .nav-link.active {
-            color: white;
-            font-weight: 700;
-        }
-        /* 简单的淡入动画 */
+
+        /* --- Content Visibility Animation --- */
         .content-section:not(.hidden) {
             animation: fadeIn 0.6s ease-out;
         }
@@ -74,20 +76,20 @@
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#home" class="nav-link text-2xl font-bold text-white" data-target="home">记录</a>
             <nav class="hidden md:flex items-center space-x-8">
-                <a href="#home" class="nav-link text-gray-300 hover:text-white transition-colors duration-300" data-target="home">首页</a>
-                <a href="#about" class="nav-link text-gray-300 hover:text-white transition-colors duration-300" data-target="about">关于我</a>
-                <a href="#timeline" class="nav-link text-gray-300 hover:text-white transition-colors duration-300" data-target="timeline">我的足迹</a>
+                <a href="#home" class="nav-link text-gray-300 hover:text-white transition-colors" data-target="home">首页</a>
+                <a href="#about" class="nav-link text-gray-300 hover:text-white transition-colors" data-target="about">关于我</a>
+                <a href="#timeline" class="nav-link text-gray-300 hover:text-white transition-colors" data-target="timeline">我的足迹</a>
             </nav>
-            <button id="mobile-menu-button" class="md:hidden text-gray-300 hover:text-white focus:outline-none z-50">
-                <svg id="menu-open-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" /></svg>
-                <svg id="menu-close-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            <button id="mobile-menu-button" class="md:hidden text-gray-300 hover:text-white">
+                <svg id="menu-open-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                <svg id="menu-close-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
         </div>
         <nav id="mobile-nav" class="hidden md:hidden bg-black/50 backdrop-blur-md">
             <div class="px-6 pb-4 pt-2 space-y-2">
-                <a href="#home" class="mobile-nav-link block text-center py-2 rounded-md text-gray-300 hover:bg-gray-800 hover:text-white" data-target="home">首页</a>
-                <a href="#about" class="mobile-nav-link block text-center py-2 rounded-md text-gray-300 hover:bg-gray-800 hover:text-white" data-target="about">关于我</a>
-                <a href="#timeline" class="mobile-nav-link block text-center py-2 rounded-md text-gray-300 hover:bg-gray-800 hover:text-white" data-target="timeline">我的足迹</a>
+                <a href="#home" class="mobile-nav-link block text-center py-2 rounded-md" data-target="home">首页</a>
+                <a href="#about" class="mobile-nav-link block text-center py-2 rounded-md" data-target="about">关于我</a>
+                <a href="#timeline" class="mobile-nav-link block text-center py-2 rounded-md" data-target="timeline">我的足迹</a>
             </div>
         </nav>
     </header>
@@ -96,7 +98,7 @@
         <section id="home" class="content-section h-screen relative flex items-center justify-center text-center overflow-hidden">
             <video autoplay muted loop id="bg-video">
                 <source src="https://placehold.co/assets/videos/time-lapse-video-of-night-sky-857251.mp4" type="video/mp4">
-                您的浏览器不支持视频播放。
+                Your browser does not support the video tag.
             </video>
             <div class="typing-container">
                 <span id="typed-text"></span><span class="cursor"></span>
@@ -106,9 +108,9 @@
         <section id="about" class="content-section hidden">
             <div class="container mx-auto px-6">
                 <div class="max-w-4xl mx-auto relative">
-                    <div class="md:absolute md:inset-0 bg-gray-800/20 rounded-2xl md:rotate-[-3deg]"></div>
+                    <div class="md:absolute md:inset-0 bg-gray-800/20 rounded-2xl md:-rotate-3"></div>
                     <div class="relative bg-gray-900/50 backdrop-blur-lg rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-12">
-                        <img src="https://placehold.co/300x300/e0e0e0/333333?text=头像" alt="[个人头像的图片]" class="w-48 h-48 md:w-60 md:h-60 rounded-full object-cover shadow-2xl flex-shrink-0 border-4 border-gray-700">
+                        <img src="https://placehold.co/300x300/e0e0e0/333333?text=头像" alt="A personal avatar" class="w-48 h-48 md:w-60 md:h-60 rounded-full object-cover shadow-2xl shrink-0 border-4 border-gray-700">
                         <div class="text-center md:text-left">
                             <h1 class="text-4xl font-bold text-white mb-4">你好，我是[你的名字]</h1>
                             <p class="text-lg leading-relaxed text-gray-400">
@@ -128,37 +130,37 @@
                 </div>
                 <div class="relative max-w-2xl mx-auto">
                     <div class="absolute left-1/2 top-0 h-full w-0.5 bg-gray-700"></div>
-                    <div class="mb-8 flex justify-between items-center w-full right-timeline">
+                    <div class="mb-8 flex justify-between items-center w-full">
                         <div class="order-1 w-5/12"></div>
-                        <div class="z-20 flex items-center order-1 bg-gray-800 shadow-xl w-8 h-8 rounded-full">
-                            <h1 class="mx-auto font-semibold text-sm text-white">1</h1>
+                        <div class="z-10 flex items-center order-1 bg-gray-800 shadow-xl w-8 h-8 rounded-full">
+                            <span class="mx-auto font-semibold text-sm text-white">1</span>
                         </div>
                         <div class="order-1 bg-gray-900/50 backdrop-blur-md rounded-lg shadow-xl w-5/12 px-6 py-4">
                             <h3 class="font-bold text-white text-xl">开启探索之旅</h3>
-                            <p class="text-sm font-medium leading-snug tracking-wide text-gray-400 text-opacity-100">2020年</p>
-                            <p class="text-sm leading-tight text-gray-500 mt-2">在这里写下那一年发生的重要事件或心路历程的简短描述。</p>
+                            <p class="text-sm font-medium text-gray-400">2020年</p>
+                            <p class="text-sm text-gray-500 mt-2">在这里写下那一年发生的重要事件或心路历程的简短描述。</p>
                         </div>
                     </div>
-                    <div class="mb-8 flex justify-between flex-row-reverse items-center w-full left-timeline">
+                    <div class="mb-8 flex justify-between flex-row-reverse items-center w-full">
                         <div class="order-1 w-5/12"></div>
-                        <div class="z-20 flex items-center order-1 bg-gray-800 shadow-xl w-8 h-8 rounded-full">
-                            <h1 class="mx-auto text-white font-semibold text-sm">2</h1>
+                        <div class="z-10 flex items-center order-1 bg-gray-800 shadow-xl w-8 h-8 rounded-full">
+                            <span class="mx-auto font-semibold text-sm text-white">2</span>
                         </div>
                         <div class="order-1 bg-gray-900/50 backdrop-blur-md rounded-lg shadow-xl w-5/12 px-6 py-4">
                             <h3 class="font-bold text-white text-xl">新的里程碑</h3>
-                            <p class="text-sm font-medium leading-snug tracking-wide text-gray-400 text-opacity-100">2022年</p>
-                            <p class="text-sm leading-tight text-gray-500 mt-2">记录下另一个值得纪念的瞬间，可以是一次旅行、一个项目或是一个感悟。</p>
+                            <p class="text-sm font-medium text-gray-400">2022年</p>
+                            <p class="text-sm text-gray-500 mt-2">记录下另一个值得纪念的瞬间，可以是一次旅行、一个项目或是一个感悟。</p>
                         </div>
                     </div>
-                     <div class="mb-8 flex justify-between items-center w-full right-timeline">
+                    <div class="flex justify-between items-center w-full">
                         <div class="order-1 w-5/12"></div>
-                        <div class="z-20 flex items-center order-1 bg-gray-800 shadow-xl w-8 h-8 rounded-full">
-                            <h1 class="mx-auto font-semibold text-sm text-white">3</h1>
+                        <div class="z-10 flex items-center order-1 bg-gray-800 shadow-xl w-8 h-8 rounded-full">
+                            <span class="mx-auto font-semibold text-sm text-white">3</span>
                         </div>
                         <div class="order-1 bg-gray-900/50 backdrop-blur-md rounded-lg shadow-xl w-5/12 px-6 py-4">
                             <h3 class="font-bold text-white text-xl">持续前行</h3>
-                            <p class="text-sm font-medium leading-snug tracking-wide text-gray-400 text-opacity-100">2024年</p>
-                            <p class="text-sm leading-tight text-gray-500 mt-2">描述当下的状态或近期的成长与变化，展望未来的方向。</p>
+                            <p class="text-sm font-medium text-gray-400">2024年</p>
+                            <p class="text-sm text-gray-500 mt-2">描述当下的状态或近期的成长与变化，展望未来的方向。</p>
                         </div>
                     </div>
                 </div>
@@ -172,7 +174,7 @@
             <div class="flex justify-center items-center space-x-4">
                 <a href="https://beian.miit.gov.cn/" target="_blank" class="hover:text-gray-300 transition-colors">京ICP备2025XXXXXX号-1</a>
                 <a href="http://www.beian.gov.cn/portal/registerSystemInfo" target="_blank" class="hover:text-gray-300 transition-colors inline-flex items-center">
-                    <img src="https://placehold.co/20x20/ffffff/000000?text=公" class="mr-1 h-4 w-4" alt="[公安备案图标]">
+                    <img src="https://placehold.co/20x20/ffffff/000000?text=公" class="mr-1 h-4 w-4" alt="Public Security Bureau icon">
                     京公网安备 XXXXXXXXXXXXXX号
                 </a>
             </div>
@@ -181,89 +183,78 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- 核心切换逻辑 ---
-            const allNavLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
-            const contentSections = document.querySelectorAll('.content-section');
-            const mobileNav = document.getElementById('mobile-nav');
-            const menuOpenIcon = document.getElementById('menu-open-icon');
-            const menuCloseIcon = document.getElementById('menu-close-icon');
+            const elements = {
+                navLinks: document.querySelectorAll('.nav-link, .mobile-nav-link'),
+                contentSections: document.querySelectorAll('.content-section'),
+                mobileNav: document.getElementById('mobile-nav'),
+                menuButton: document.getElementById('mobile-menu-button'),
+                menuOpenIcon: document.getElementById('menu-open-icon'),
+                menuCloseIcon: document.getElementById('menu-close-icon'),
+                typedTextSpan: document.getElementById('typed-text')
+            };
 
-            function switchContent(targetId) {
-                // 隐藏所有内容区域
-                contentSections.forEach(section => {
-                    section.classList.add('hidden');
+            const toggleMobileMenu = () => {
+                elements.mobileNav.classList.toggle('hidden');
+                elements.menuOpenIcon.classList.toggle('hidden');
+                elements.menuCloseIcon.classList.toggle('hidden');
+            };
+
+            const switchContent = (targetId) => {
+                elements.contentSections.forEach(section => {
+                    section.classList.toggle('hidden', section.id !== targetId);
                 });
-
-                // 显示目标内容区域
-                const targetSection = document.getElementById(targetId);
-                if (targetSection) {
-                    targetSection.classList.remove('hidden');
-                }
-
-                // 更新导航链接高亮状态
-                allNavLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.dataset.target === targetId) {
-                        link.classList.add('active');
-                    }
+                elements.navLinks.forEach(link => {
+                    link.classList.toggle('active', link.dataset.target === targetId);
                 });
-            }
+            };
 
-            allNavLinks.forEach(link => {
+            elements.navLinks.forEach(link => {
                 link.addEventListener('click', (event) => {
-                    event.preventDefault(); // 阻止链接的默认行为
+                    event.preventDefault();
                     const targetId = link.dataset.target;
                     switchContent(targetId);
-                    
-                    // 如果点击的是移动端菜单的链接，则关闭菜单
                     if (link.classList.contains('mobile-nav-link')) {
-                        mobileNav.classList.add('hidden');
-                        menuOpenIcon.classList.remove('hidden');
-                        menuCloseIcon.classList.add('hidden');
+                        toggleMobileMenu();
                     }
                 });
             });
 
-            // 初始加载时，显示首页
-            switchContent('home');
+            elements.menuButton.addEventListener('click', toggleMobileMenu);
 
-            // --- 其他功能脚本 ---
-
-            // 打字效果
-            const typedTextSpan = document.getElementById("typed-text");
-            if (typedTextSpan) {
+            // Typing animation logic
+            if (elements.typedTextSpan) {
                 const textArray = ["记录生活。", "分享美好。", "收藏光影。"];
-                const typingDelay = 150, erasingDelay = 100, newTextDelay = 2000;
-                let textArrayIndex = 0, charIndex = 0;
-                function type() {
-                    if (charIndex < textArray[textArrayIndex].length) {
-                        typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex++);
-                        setTimeout(type, typingDelay);
-                    } else {
-                        setTimeout(erase, newTextDelay);
-                    }
-                }
-                function erase() {
-                    if (charIndex > 0) {
-                        typedTextSpan.textContent = textArray[textArrayIndex].substring(0, --charIndex);
-                        setTimeout(erase, erasingDelay);
-                    } else {
-                        textArrayIndex = (textArrayIndex + 1) % textArray.length;
-                        setTimeout(type, typingDelay + 1100);
-                    }
-                }
-                setTimeout(type, newTextDelay + 250);
-            }
+                let textArrayIndex = 0;
+                let charIndex = 0;
+                let isErasing = false;
+                const typeSpeed = 150;
+                const eraseSpeed = 100;
+                const delay = 2000;
 
-            // 移动端菜单按钮
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            mobileMenuButton.addEventListener('click', () => {
-                mobileNav.classList.toggle('hidden');
-                menuOpenIcon.classList.toggle('hidden');
-                menuCloseIcon.classList.toggle('hidden');
-            });
+                const type = () => {
+                    const currentText = textArray[textArrayIndex];
+                    if (isErasing) {
+                        elements.typedTextSpan.textContent = currentText.substring(0, charIndex--);
+                        if (charIndex < 0) {
+                            isErasing = false;
+                            textArrayIndex = (textArrayIndex + 1) % textArray.length;
+                        }
+                    } else {
+                        elements.typedTextSpan.textContent = currentText.substring(0, charIndex++);
+                        if (charIndex > currentText.length) {
+                            isErasing = true;
+                            setTimeout(type, delay);
+                            return;
+                        }
+                    }
+                    setTimeout(type, isErasing ? eraseSpeed : typeSpeed);
+                };
+                setTimeout(type, delay);
+            }
+            
+            // Initial state
+            switchContent('home');
         });
     </script>
-
 </body>
 </html>
