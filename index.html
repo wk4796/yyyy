@@ -4,159 +4,273 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>个人生活记录</title>
-    <!-- 引入 Tailwind CSS，这是一个流行的CSS框架，用于快速构建美观的界面 -->
+    <!-- 引入 Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 引入 Google Fonts 的 Inter 字体，如果无法访问，会回退到系统默认字体 -->
+    <!-- 引入 Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* 自定义字体，优先使用 Noto Sans SC (思源黑体) 以获得更好的中文显示效果 */
+        /* 使用更具设计感的衬线字体 */
         body {
-            font-family: 'Inter', 'Noto Sans SC', sans-serif;
+            font-family: 'Noto Serif SC', serif;
+            background-color: #121212; /* 深色背景 */
+            color: #e0e0e0;
         }
-        /* 简单的动画效果 */
-        .card-hover {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        /* 平滑滚动效果 */
+        html {
+            scroll-behavior: smooth;
         }
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        /* 全屏视频背景 */
+        #home {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+        #bg-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            transform: translateX(-50%) translateY(-50%);
+            filter: brightness(0.4);
+        }
+        /* 动态打字效果 */
+        .typing-container {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 3.5rem;
+            background-color: white;
+            animation: blink 1s infinite;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        /* 滚动淡入动画 */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* 导航激活状态 */
+        .nav-link.active {
+            color: white;
+            font-weight: 700;
+        }
+        /* 画廊图片悬停效果 */
+        .gallery-img-container {
+            overflow: hidden;
+            border-radius: 0.75rem; /* 12px */
+        }
+        .gallery-img {
+            transition: transform 0.5s ease;
+        }
+        .gallery-img-container:hover .gallery-img {
+            transform: scale(1.05);
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body class="text-gray-300">
 
     <!-- 网站头部 -->
-    <header class="bg-white shadow-sm sticky top-0 z-10">
+    <header class="bg-black/30 backdrop-blur-md fixed top-0 left-0 right-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-slate-900">个人生活记录</h1>
-            <!-- 桌面端导航 -->
-            <nav class="hidden md:flex space-x-8">
-                <a href="#" class="text-slate-600 hover:text-blue-600 transition-colors">首页</a>
-                <a href="#" class="text-slate-600 hover:text-blue-600 transition-colors">分类</a>
-                <a href="#" class="text-slate-600 hover:text-blue-600 transition-colors">归档</a>
-                <a href="#" class="text-slate-600 hover:text-blue-600 transition-colors">关于我</a>
+            <a href="#home" class="text-2xl font-bold text-white">记录</a>
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#home" class="nav-link text-gray-300 hover:text-white transition-colors duration-300 active" data-target="home">首页</a>
+                <a href="#about" class="nav-link text-gray-300 hover:text-white transition-colors duration-300" data-target="about">关于我</a>
+                <a href="#gallery" class="nav-link text-gray-300 hover:text-white transition-colors duration-300" data-target="gallery">图片集</a>
             </nav>
             <!-- 移动端菜单按钮 -->
-            <button id="mobile-menu-button" class="md:hidden text-slate-600 hover:text-blue-600 focus:outline-none">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                </svg>
+            <button id="mobile-menu-button" class="md:hidden text-gray-300 hover:text-white focus:outline-none z-50">
+                <svg id="menu-open-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                <svg id="menu-close-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
         </div>
-        <!-- 移动端导航菜单 (默认隐藏) -->
-        <nav id="mobile-nav" class="hidden md:hidden px-6 pb-4">
-            <a href="#" class="block text-center py-2 text-slate-600 hover:bg-slate-100 hover:text-blue-600 rounded-md">首页</a>
-            <a href="#" class="block text-center py-2 text-slate-600 hover:bg-slate-100 hover:text-blue-600 rounded-md">分类</a>
-            <a href="#" class="block text-center py-2 text-slate-600 hover:bg-slate-100 hover:text-blue-600 rounded-md">归档</a>
-            <a href="#" class="block text-center py-2 text-slate-600 hover:bg-slate-100 hover:text-blue-600 rounded-md">关于我</a>
+        <!-- 移动端导航菜单 -->
+        <nav id="mobile-nav" class="hidden md:hidden bg-black/50 backdrop-blur-md">
+            <div class="px-6 pb-4 pt-2 space-y-2">
+                <a href="#home" class="mobile-nav-link block text-center py-2 rounded-md text-gray-300 hover:bg-gray-800 hover:text-white" data-target="home">首页</a>
+                <a href="#about" class="mobile-nav-link block text-center py-2 rounded-md text-gray-300 hover:bg-gray-800 hover:text-white" data-target="about">关于我</a>
+                <a href="#gallery" class="mobile-nav-link block text-center py-2 rounded-md text-gray-300 hover:bg-gray-800 hover:text-white" data-target="gallery">图片集</a>
+            </div>
         </nav>
     </header>
 
     <!-- 主体内容区域 -->
-    <main class="container mx-auto px-6 py-12">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-            <!-- 记录卡片 1 -->
-            <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover">
-                <a href="#" class="block">
-                    <img src="https://placehold.co/600x400/a7c5eb/ffffff?text=旅行" alt="旅行风景图" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <p class="text-sm text-slate-500 mb-2">2025年7月21日</p>
-                        <h2 class="text-xl font-bold mb-3 text-slate-900">一场说走就走的旅行</h2>
-                        <p class="text-slate-600 mb-4">整理好行囊，告别城市的喧嚣，踏上了一段未知的旅程。阳光、山川和海风，都是最好的治愈...</p>
-                        <span class="font-semibold text-blue-600 hover:text-blue-800 transition-colors">阅读全文 &rarr;</span>
-                    </div>
-                </a>
+    <main>
+        <!-- 首页内容 - 全屏视频 -->
+        <section id="home">
+            <video autoplay muted loop id="bg-video">
+                <source src="https://placehold.co/assets/videos/time-lapse-video-of-night-sky-857251.mp4" type="video/mp4">
+                您的浏览器不支持视频播放。
+            </video>
+            <div class="typing-container">
+                <span id="typed-text"></span><span class="cursor"></span>
             </div>
+        </section>
 
-            <!-- 记录卡片 2 -->
-            <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover">
-                <a href="#" class="block">
-                    <img src="https://placehold.co/600x400/f0b8b8/ffffff?text=美食" alt="美食图片" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <p class="text-sm text-slate-500 mb-2">2025年7月15日</p>
-                        <h2 class="text-xl font-bold mb-3 text-slate-900">城市角落的美食探店</h2>
-                        <p class="text-slate-600 mb-4">在一条不起眼的小巷里，发现了一家宝藏小店。每一道菜都充满了故事，温暖了味蕾和心灵。</p>
-                        <span class="font-semibold text-blue-600 hover:text-blue-800 transition-colors">阅读全文 &rarr;</span>
+        <!-- 关于我内容 -->
+        <section id="about" class="py-20 md:py-32 fade-in-section">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto relative">
+                    <div class="md:absolute md:inset-0 bg-gray-800/20 rounded-2xl md:rotate-[-3deg]"></div>
+                    <div class="relative bg-gray-900/50 backdrop-blur-lg rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-12">
+                        <img src="https://placehold.co/300x300/e0e0e0/333333?text=头像" alt="[个人头像的图片]" class="w-48 h-48 md:w-60 md:h-60 rounded-full object-cover shadow-2xl flex-shrink-0 border-4 border-gray-700">
+                        <div class="text-center md:text-left">
+                            <h1 class="text-4xl font-bold text-white mb-4">你好，我是[你的名字]</h1>
+                            <p class="text-lg leading-relaxed text-gray-400">
+                                一个热爱生活、喜欢用镜头和文字捕捉瞬间的行者。我相信，每一个平凡的日子里，都藏着不平凡的诗意。这个小站，是我收藏光影与思绪的地方。
+                            </p>
+                        </div>
                     </div>
-                </a>
+                </div>
             </div>
-
-            <!-- 记录卡片 3 -->
-            <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover">
-                <a href="#" class="block">
-                    <img src="https://placehold.co/600x400/c3e6cb/ffffff?text=日常" alt="咖啡与书" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <p class="text-sm text-slate-500 mb-2">2025年7月10日</p>
-                        <h2 class="text-xl font-bold mb-3 text-slate-900">周末午后的咖啡与书</h2>
-                        <p class="text-slate-600 mb-4">一个悠闲的周末，一杯手冲咖啡，一本好书。享受这份宁静与惬意，是生活中的小确幸。</p>
-                        <span class="font-semibold text-blue-600 hover:text-blue-800 transition-colors">阅读全文 &rarr;</span>
-                    </div>
-                </a>
+        </section>
+        
+        <!-- 图片集内容 -->
+        <section id="gallery" class="py-20 md:py-32 fade-in-section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h1 class="text-4xl font-bold text-white">图片集</h1>
+                    <p class="text-lg text-gray-400 mt-2">生活的片段，光影的诗篇</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <a href="#" class="gallery-img-container block shadow-2xl"><img class="gallery-img w-full h-full object-cover" src="https://images.unsplash.com/photo-1519677100203-a0e668c97489?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="[夜晚街角的照片]"></a>
+                    <a href="#" class="gallery-img-container block shadow-2xl md:translate-y-10"><img class="gallery-img w-full h-full object-cover" src="https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="[阳光穿透森林的照片]"></a>
+                    <a href="#" class="gallery-img-container block shadow-2xl"><img class="gallery-img w-full h-full object-cover" src="https://images.unsplash.com/photo-1502920514358-90b23d79b98d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="[海边日落的照片]"></a>
+                </div>
             </div>
-
-        </div>
-
-        <!-- 分页导航 -->
-        <div class="mt-12 flex justify-center">
-            <nav class="flex rounded-md shadow-sm">
-                <a href="#" class="px-4 py-2 text-sm font-medium text-slate-500 bg-white border border-gray-200 rounded-l-md hover:bg-gray-50">
-                    &laquo; 上一页
-                </a>
-                <a href="#" class="px-4 py-2 text-sm font-medium text-slate-700 bg-white border-t border-b border-gray-200 hover:bg-gray-50">
-                    1
-                </a>
-                <a href="#" class="px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 border-t border-b border-gray-200 hover:bg-blue-100">
-                    2
-                </a>
-                <a href="#" class="px-4 py-2 text-sm font-medium text-slate-700 bg-white border-t border-b border-gray-200 hover:bg-gray-50">
-                    3
-                </a>
-                <a href="#" class="px-4 py-2 text-sm font-medium text-slate-500 bg-white border border-gray-200 rounded-r-md hover:bg-gray-50">
-                    下一页 &raquo;
-                </a>
-            </nav>
-        </div>
-
+        </section>
     </main>
 
     <!-- 网站页脚 -->
-    <footer class="bg-white border-t border-slate-200 mt-12">
-        <div class="container mx-auto px-6 py-8 text-center text-slate-500 text-sm">
+    <footer class="bg-black/50 border-t border-gray-800">
+        <div class="container mx-auto px-6 py-6 text-center text-gray-500 text-xs">
             <p class="mb-2">&copy; 2025 个人生活记录. 保留所有权利.</p>
-            
-            <!-- 
-                重要提示：备案信息
-                根据中国大陆法律法规，网站必须在页脚展示备案信息。
-                您需要在您的服务器提供商（如阿里云、腾讯云）处完成ICP备案和公安备案后，
-                将下面的占位符替换成您自己的真实备案号。
-            -->
-            <div class="space-x-4">
-                <!-- ICP备案号 -->
-                <a href="https://beian.miit.gov.cn/" target="_blank" class="hover:text-blue-600">
-                    京ICP备2025XXXXXX号-1
-                </a>
-                <!-- 公安备案号 -->
-                <a href="http://www.beian.gov.cn/portal/registerSystemInfo" target="_blank" class="hover:text-blue-600 inline-flex items-center">
-                    <img src="https://placehold.co/20x20/ffffff/000000?text=公" class="mr-1" alt="公安备案图标">
+            <div class="flex justify-center items-center space-x-4">
+                <a href="https://beian.miit.gov.cn/" target="_blank" class="hover:text-gray-300 transition-colors">京ICP备2025XXXXXX号-1</a>
+                <a href="http://www.beian.gov.cn/portal/registerSystemInfo" target="_blank" class="hover:text-gray-300 transition-colors inline-flex items-center">
+                    <img src="https://placehold.co/20x20/ffffff/000000?text=公" class="mr-1 h-4 w-4" alt="[公安备案图标]">
                     京公网安备 XXXXXXXXXXXXXX号
                 </a>
             </div>
         </div>
     </footer>
 
-    <!-- JavaScript 代码，用于处理移动端菜单的点击事件 -->
+    <!-- JavaScript 代码 -->
     <script>
-        // 获取移动端菜单按钮和导航菜单元素
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileNav = document.getElementById('mobile-nav');
+        document.addEventListener('DOMContentLoaded', () => {
+            // 打字效果
+            const typedTextSpan = document.getElementById("typed-text");
+            const textArray = ["记录生活。", "分享美好。", "收藏光影。"];
+            const typingDelay = 150;
+            const erasingDelay = 100;
+            const newTextDelay = 2000;
+            let textArrayIndex = 0;
+            let charIndex = 0;
 
-        // 为按钮添加点击事件监听器
-        mobileMenuButton.addEventListener('click', () => {
-            // 切换导航菜单的 'hidden' 类，实现显示/隐藏效果
-            mobileNav.classList.toggle('hidden');
+            function type() {
+                if (charIndex < textArray[textArrayIndex].length) {
+                    typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex);
+                    charIndex++;
+                    setTimeout(type, typingDelay);
+                } else {
+                    setTimeout(erase, newTextDelay);
+                }
+            }
+
+            function erase() {
+                if (charIndex > 0) {
+                    typedTextSpan.textContent = textArray[textArrayIndex].substring(0, charIndex - 1);
+                    charIndex--;
+                    setTimeout(erase, erasingDelay);
+                } else {
+                    textArrayIndex++;
+                    if (textArrayIndex >= textArray.length) textArrayIndex = 0;
+                    setTimeout(type, typingDelay + 1100);
+                }
+            }
+            
+            if(typedTextSpan) {
+                setTimeout(type, newTextDelay + 250);
+            }
+
+            // 移动端菜单
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileNav = document.getElementById('mobile-nav');
+            const menuOpenIcon = document.getElementById('menu-open-icon');
+            const menuCloseIcon = document.getElementById('menu-close-icon');
+            const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+            const toggleMenu = () => {
+                mobileNav.classList.toggle('hidden');
+                menuOpenIcon.classList.toggle('hidden');
+                menuCloseIcon.classList.toggle('hidden');
+            };
+            mobileMenuButton.addEventListener('click', toggleMenu);
+            mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+            // 滚动淡入效果
+            const faders = document.querySelectorAll('.fade-in-section');
+            const appearOptions = {
+                threshold: 0.2,
+                rootMargin: "0px 0px -50px 0px"
+            };
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+
+            // 导航高亮
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+            window.addEventListener('scroll', () => {
+                let current = 'home';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 70) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.dataset.target === current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
         });
     </script>
 
